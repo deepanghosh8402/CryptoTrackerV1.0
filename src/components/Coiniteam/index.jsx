@@ -1,5 +1,5 @@
 import React from "react";
-// import styles from "./screens/CoinDetailedScreen/styles";
+import styles from "./styles";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
@@ -32,7 +32,7 @@ const CoinIteam = ({ marketCoin }) => {
     return marketCap;
   };
   return (
-    <View style={styles.cointContainer}>
+    <View style={styles.coinContainer}>
       <Image
         source={{
           uri: image,
@@ -45,7 +45,7 @@ const CoinIteam = ({ marketCoin }) => {
         }}
       />
       <View>
-        <Text style={styles.titile}>{name}</Text>
+        <Text style={styles.title}>{name}</Text>
         <View style={{ flexDirection: "row" }}>
           <View style={styles.rankContainer}>
             <Text style={styles.rank}>{market_cap_rank}</Text>
@@ -63,7 +63,7 @@ const CoinIteam = ({ marketCoin }) => {
         </View>
       </View>
       <View style={{ marginLeft: "auto", alignItems: "flex-end" }}>
-        <Text style={styles.titile}>{current_price}</Text>
+        <Text style={styles.title}>{current_price}</Text>
         <Text style={{ color: "white" }}>
           MCap
           {normaizeMarketcap(market_cap)}

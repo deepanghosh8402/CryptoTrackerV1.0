@@ -1,14 +1,27 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image, FlatList } from "react-native";
-import HomeScreen from "./src/screens/HomeScreen";
-import CoinDetailsScreen from "./src/screens/CoinDetailedScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import Navigation from "./src/Navigation";
+import {
+  backgroundColor,
+  color,
+} from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 export default function App() {
   return (
-    <View style={styles.container}>
-      <HomeScreen />
-      {/* <CoinDetailsScreen></CoinDetailsScreen> */}
-      <StatusBar style="light" />
-    </View>
+    <NavigationContainer
+      theme={{
+        colors: {
+          background: "#121212",
+        },
+      }}
+    >
+      <View style={styles.container}>
+        <Navigation />
+        {/* <HomeScreen /> */}
+        {/* <CoinDetailsScreen></CoinDetailsScreen> */}
+        <StatusBar style="light" />
+      </View>
+    </NavigationContainer>
   );
 }
 

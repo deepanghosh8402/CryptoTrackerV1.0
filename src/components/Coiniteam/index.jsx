@@ -1,11 +1,13 @@
 import React from "react";
 import styles from "./styles";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+import { useNavigation } from "@react-navigation/native";
 
 const CoinIteam = ({ marketCoin }) => {
   const {
+    id,
     name,
     current_price,
     market_cap,
@@ -31,8 +33,16 @@ const CoinIteam = ({ marketCoin }) => {
     }
     return marketCap;
   };
+
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.coinContainer}>
+    <Pressable
+      style={styles.coinContainer}
+      onPress={() => {
+        navigation.navigate("CoinDetailsScreen", { coinId: id });
+      }}
+    >
       <Image
         source={{
           uri: image,
@@ -69,7 +79,7 @@ const CoinIteam = ({ marketCoin }) => {
           {normaizeMarketcap(market_cap)}
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

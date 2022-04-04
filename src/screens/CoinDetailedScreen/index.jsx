@@ -11,6 +11,7 @@ import {
   GestureHandlerRootView,
   GestureDetector,
 } from "react-native-gesture-handler";
+import { useRoute } from "@react-navigation/native";
 
 // import * as haptics from "expo-haptics";
 const CoinDetailedScreen = () => {
@@ -73,6 +74,11 @@ const CoinDetailedScreen = () => {
       console.log(number);
     },
     []);
+  const route = useRoute();
+  const {
+    params: { coinId },
+  } = route;
+
   return (
     <View style={{ paddingHorizontal: 10 }}>
       <CoinDetailsHeader

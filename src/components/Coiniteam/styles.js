@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   title: {
@@ -18,15 +18,15 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   rank: {
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
   rankContainer: {
-    backgroundColor: '#585858',
+    backgroundColor: "#585858",
     paddingHorizontal: 5,
     borderRadius: 5,
     marginRight: 5,
-  }
+  },
 });
 
 export default styles;

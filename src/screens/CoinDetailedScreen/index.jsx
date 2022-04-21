@@ -1,7 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  getDetailedCoinData,
+  getCoinMarketChart,
+} from "../../services/requests";
 import CoinDetailsHeader from "../CoinDetailedScreen/components/CoinDetailedHeader";
 import Coin from "../../../assets/data/crypto.json";
-import { View, Image, Text, Dimensions, TextInput } from "react-native";
+import {
+  View,
+  Image,
+  Text,
+  Dimensions,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import styles from "./style";
 import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 import { AntDesign } from "@expo/vector-icons";
@@ -13,17 +24,54 @@ import {
 } from "react-native-gesture-handler";
 import { useRoute } from "@react-navigation/native";
 
-// import * as haptics from "expo-haptics";
 const CoinDetailedScreen = () => {
+  const route = useRoute();
+  const {
+    params: { coinId },
+  } = route;
+  const [coinValueApi, setCoinValueApi] = useState(null);
+  const [coinMarketData, setCoinMarketData] = useState(null);
+  const [coinValue, setCoinValue] = useState("1");
+  const [loading, setLoading] = useState(false);
+
+  const [usdValue, setUsdValue] = useState("");
+  const fetchCoinData = async () => {
+    setLoading(true);
+    const fetchedCoinData = await getDetailedCoinData(coinId);
+    getCoinMarketChart;
+    setCoinValueApi(fetchedCoinData);
+    setUsdValue(fetchedCoinData.market_data.current_price.usd.toString());
+    setLoading(false);
+  };
+  const fetchCoinMarketData = async (selectedRangeValue) => {
+    const fetchedCoinMarketData = await getCoinMarketChart(
+      coinId,
+      selectedRangeValue
+    );
+    setCoinMarketData(fetchedCoinMarketData);
+  };
+
+  useEffect(() => {
+    fetchCoinData();
+    fetchCoinMarketData(3);
+  }, []);
+  useEffect(
+    () => {},
+    [coinValueApi, coinMarketData] //This is dependency and it will run only when data is changed
+  );
+
+  if (loading || !coinValueApi) {
+    return <ActivityIndicator size="large" />;
+  }
   const {
     image: { small },
     name,
     symbol,
-    prices,
-    market_data: { market_cap_rank, current_price, price_change_24h },
-  } = Coin;
-  const [coinValue, setCoinValue] = useState("1");
-  const [usdValue, setUsdValue] = useState(current_price.usd.toString());
+    id,
+    market_data: { market_cap_rank, price_change_24h, current_price },
+  } = coinValueApi;
+  const { prices } = coinMarketData;
+
   const chanageCoinValue = (value) => {
     setCoinValue(value);
     const floatValue = parseFloat(value.replace(",", ".")) || 0;
@@ -53,43 +101,24 @@ const CoinDetailedScreen = () => {
         </LineChart.Provider>
       </GestureDetector>
     </View>
-    // <View>
-    //   <LineChart.Provider data={points}>
-    // <LineChart>
-    //   <LineChart.Path color="hotpink">
-    //     <LineChart.Gradient />
-    //     <LineChart.Highlight color="#FFFFFF" from={10} to={15} />
-    //     <LineChart.HorizontalLine at={{ value: 56923.84 }} />
-    //     <LineChart.Dot color="red" at={10} hasPulse />
-    //   </LineChart.Path>
-    //   <LineChart.CursorCrosshair color="#FFFFFF">
-    //     <LineChart.Tooltip />
-    //   </LineChart.CursorCrosshair>
-    // </LineChart>
-    //   </LineChart.Provider>
-    // </View>
   ));
   const onCurrentIndexChange =
     ((number) => {
       console.log(number);
     },
     []);
-  const route = useRoute();
-  const {
-    params: { coinId },
-  } = route;
 
   return (
     <View style={{ paddingHorizontal: 10 }}>
       <CoinDetailsHeader
         image={small}
-        name={name}
+        name={id}
         marketCapRank={market_cap_rank}
         symbol={symbol}
       />
       <View style={styles.priceContainer}>
         <View>
-          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.name}>{id}</Text>
           <Text style={styles.currentPrice}>${current_price.usd}</Text>
         </View>
 
@@ -138,11 +167,10 @@ const CoinDetailedScreen = () => {
           />
         </View>
       </View>
-      {/* <GestureHandlerRootView> */}
-      <Chart />
-      {/* </GestureHandlerRootView> */}
+      <GestureHandlerRootView>
+        <Chart />
+      </GestureHandlerRootView>
     </View>
   );
 };
-
 export default CoinDetailedScreen;

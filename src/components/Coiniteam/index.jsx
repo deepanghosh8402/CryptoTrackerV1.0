@@ -16,6 +16,7 @@ const CoinIteam = ({ marketCoin }) => {
     market_cap_rank,
     image,
   } = marketCoin;
+
   const percentageColor =
     price_change_percentage_24h < 0 ? "#ea3943" : "#16c784";
   const normaizeMarketcap = (marketCap) => {
@@ -43,6 +44,7 @@ const CoinIteam = ({ marketCoin }) => {
         navigation.navigate("CoinDetailsScreen", { coinId: id });
       }}
     >
+      {/* {console.log(image)} */}
       <Image
         source={{
           uri: image,
@@ -54,6 +56,7 @@ const CoinIteam = ({ marketCoin }) => {
           alignSelf: "center",
         }}
       />
+
       <View>
         <Text style={styles.title}>{name}</Text>
         <View style={{ flexDirection: "row" }}>

@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const CoinDetailsHeader = (props) => {
   const { image, name, marketCapRank, symbol } = props;
+  // console.log(props);
   const navigation = useNavigation();
   return (
     <View style={styles.cointContainer}>
@@ -18,7 +19,12 @@ const CoinDetailsHeader = (props) => {
         }}
       />
       <View style={styles.tickerContainer}>
-        <Image source={{ uri: image }} style={{ width: 25, height: 25 }} />
+        <Image
+          source={{
+            uri: image,
+          }}
+          style={{ width: 25, height: 25 }}
+        />
         <Text style={styles.tickerTitle}>{symbol}</Text>
         <View style={styles.rankContainer}>
           <Text style={styles.tickerTitle}>{marketCapRank}</Text>

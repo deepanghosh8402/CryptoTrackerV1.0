@@ -112,7 +112,7 @@ const CoinDetailedScreen = () => {
     <View style={{ paddingHorizontal: 10 }}>
       <CoinDetailsHeader
         image={small}
-        name={id}
+        coinId={id}
         marketCapRank={market_cap_rank}
         symbol={symbol}
       />

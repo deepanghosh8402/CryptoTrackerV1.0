@@ -6,6 +6,7 @@ import {
   backgroundColor,
   color,
 } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+import WatchlistProvider from "./src/Contexts/watchlistContext";
 export default function App() {
   return (
     <NavigationContainer
@@ -15,12 +16,14 @@ export default function App() {
         },
       }}
     >
-      <View style={styles.container}>
-        <Navigation />
-        {/* <HomeScreen /> */}
-        {/* <CoinDetailsScreen></CoinDetailsScreen> */}
-        <StatusBar style="light" />
-      </View>
+      <WatchlistProvider>
+        <View style={styles.container}>
+          <Navigation />
+          {/* <HomeScreen /> */}
+          {/* <CoinDetailsScreen></CoinDetailsScreen> */}
+          <StatusBar style="light" />
+        </View>
+      </WatchlistProvider>
     </NavigationContainer>
   );
 }

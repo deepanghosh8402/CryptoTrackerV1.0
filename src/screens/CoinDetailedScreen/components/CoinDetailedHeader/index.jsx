@@ -8,9 +8,16 @@ const CoinDetailsHeader = (props) => {
   const { image, coinId, marketCapRank, symbol } = props;
   // console.log(props);
   const navigation = useNavigation();
-  const { watchlistCoinIds } = useWatchlist();
+  const { watchlistCoinIds, storeWatchlistCoinId, removeWatchlistCoinId } =
+    useWatchlist();
   const checkIfCoinIsWatchlisted = () =>
     watchlistCoinIds.some((coinIdValue) => coinIdValue === coinId);
+  const handleWatchListCoin = () => {
+    if (checkIfCoinIsWatchlisted()) {
+      return removeWatchlistCoinId(coinId);
+    }
+    return storeWatchlistCoinId(coinId);
+  };
   return (
     <View style={styles.cointContainer}>
       <Ionicons
@@ -37,6 +44,7 @@ const CoinDetailsHeader = (props) => {
         name={checkIfCoinIsWatchlisted() ? "star" : "star-o"}
         size={25}
         color={checkIfCoinIsWatchlisted() ? "#FFBF00" : "white"}
+        onPress={handleWatchListCoin}
       />
     </View>
   );

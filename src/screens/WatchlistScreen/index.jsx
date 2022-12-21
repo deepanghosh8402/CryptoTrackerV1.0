@@ -1,34 +1,42 @@
-import { View, Text } from "react-native";
-import React, { useContext, FlatList } from "react";
+import { View, Text, RefreshControl, FlatList } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
 import { useWatchlist } from "../../Contexts/watchlistContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CoinIteam from "../../components/Coiniteam";
+import { getWatchlistedCoins } from "../../services/requests";
 
 const WatchlistScreen = () => {
   const { watchlistCoinIds } = useWatchlist();
+  const [coins, setCoins] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const transformCoinIds = () => watchlistCoinIds.join("%2c");
 
-  // // const checkIfCoinIsWatchlisted = () =>
-  // //   watchlistCoinIds.some((coinIdValue) => coinIdValue === coinId);
-  // // console.log(checkIfCoinIsWatchlisted());
-  // const array = [1, 2, 3, 4, 5];
+  const fetchWatchListedCoins = async () => {
+    if (loading) return;
 
-  // // checks whether an element is even
-  // const even = (element) => element % 2 === 0;
-  // console.log("start");
-  // watchlistCoinIds.map((item) => {
-  //   console.log(...item);
-  // });
-  // console.log(watchlistCoinIds);
+    setLoading(true);
+    const watchListedCoinData =
+      (await getWatchlistedCoins(1, transformCoinIds())) || [];
+    setCoins(watchListedCoinData);
+    setLoading(false);
+  };
 
-  // expected output: true
+  useEffect(() => {
+    fetchWatchListedCoins();
+  }, []);
+
   return (
-    <View>
-      <Text style={{ color: "white" }}>Watchlist </Text>
-    </View>
-    // <FlatList
-    //   data={watchlistCoinIds}
-    //   renderItem={({ item }) => <CoinIteam marketCoin={item} />}
-    // />
+    <FlatList
+      data={coins}
+      renderItem={({ item }) => <CoinIteam marketCoin={item} />}
+      refreshControl={
+        <RefreshControl
+          refreshing={loading}
+          tintColor="white"
+          onRefresh={fetchWatchListedCoins()}
+        />
+      }
+    />
   );
 };
 export default WatchlistScreen;

@@ -83,11 +83,11 @@ const CoinDetailedScreen = () => {
     setCoinValue((floatValue / current_price.usd).toString());
   };
   const percentageColor = price_change_24h < 0 ? "#ea3943" : "#16c784";
-
   const points = prices.map(([timestamp, value]) => ({
     timestamp,
     value,
   }));
+
   const chartColor = current_price.usd > prices[0][1] ? "#16c784" : "#ea3943";
   const screenWidth = Dimensions.get("window").width;
   const Chart = gestureHandlerRootHOC(() => (

@@ -1,4 +1,5 @@
 import React, { useContext, createContext, useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const WatchlistContext = createContext();
 export const useWatchlist = () => useContext(WatchlistContext);
@@ -25,8 +26,10 @@ const WatchlistProvider = ({ children }) => {
       setwatchlistCoinIds(newWatchlist);
     } catch (e) {
       // saving error
+      console.error(e);
     }
   };
+
   const removeWatchlistCoinId = async (coinID) => {
     try {
       const newWatchlist = watchlistCoinIds.filter(
@@ -38,11 +41,12 @@ const WatchlistProvider = ({ children }) => {
     } catch (e) {
       // remove error
     }
-
-    console.log("Done.");
   };
+
   return (
-    <WatchlistContext.Provider value={{ watchlistCoinIds }}>
+    <WatchlistContext.Provider
+      value={{ watchlistCoinIds, storeWatchlistCoinId, removeWatchlistCoinId }}
+    >
       {children}
     </WatchlistContext.Provider>
   );

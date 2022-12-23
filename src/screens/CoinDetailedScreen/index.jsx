@@ -68,7 +68,11 @@ const CoinDetailedScreen = () => {
     name,
     symbol,
     id,
-    market_data: { market_cap_rank, price_change_24h, current_price },
+    market_data: {
+      market_cap_rank,
+      price_change_percentage_24h,
+      current_price,
+    },
   } = coinValueApi;
   const { prices } = coinMarketData;
 
@@ -82,13 +86,16 @@ const CoinDetailedScreen = () => {
     const floatValue = parseFloat(value.replace(",", ".")) || 0;
     setCoinValue((floatValue / current_price.usd).toString());
   };
-  const percentageColor = price_change_24h < 0 ? "#ea3943" : "#16c784";
+  const percentageColor =
+    price_change_percentage_24h < 0 ? "#ea3943" : "#16c784" || "white";
+
   const points = prices.map(([timestamp, value]) => ({
     timestamp,
     value,
   }));
 
-  const chartColor = current_price.usd > prices[0][1] ? "#16c784" : "#ea3943";
+  const chartColor =
+    current_price.usd > prices[0][1] ? "#16c784" : "#ea3943" || "white";
   const screenWidth = Dimensions.get("window").width;
   const Chart = gestureHandlerRootHOC(() => (
     <View>
@@ -133,14 +140,14 @@ const CoinDetailedScreen = () => {
           }}
         >
           <AntDesign
-            name={price_change_24h < 0 ? "caretdown" : "caretup"}
+            name={price_change_percentage_24h < 0 ? "caretdown" : "caretup"}
             size={12}
             color={"white"}
             style={{ alignSelf: "center", marginRight: 5 }}
           />
 
           <Text style={{ color: "white", fontSize: 15, fontWeight: "400" }}>
-            {price_change_24h.toFixed(2)}%
+            {price_change_percentage_24h?.toFixed(2)}%
           </Text>
         </View>
       </View>

@@ -18,7 +18,7 @@ const CoinIteam = ({ marketCoin }) => {
   } = marketCoin;
 
   const percentageColor =
-    price_change_percentage_24h < 0 ? "#ea3943" : "#16c784";
+    price_change_percentage_24h < 0 ? "#ea3943" : "#16c784" || "white";
   const normaizeMarketcap = (marketCap) => {
     if (marketCap > 1000000000000) {
       return `${Math.floor(marketCap / 1000000000000)} T`;
